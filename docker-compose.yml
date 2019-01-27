@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  aglio:
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - "./docs/t-pay:/projects"
+    tty: true
+    command: aglio --theme-full-width --theme-template triple slate -i index.md -s -h 0.0.0.0 -p 4000
+  drakov:
+    build: .
+    ports:
+      - "4001:4001"
+    volumes:
+      - "./docs/t-pay:/projects"
+    tty: true
+    command: drakov -f "**/*.md" --public --watch --p 4001
