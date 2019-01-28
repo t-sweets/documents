@@ -1,10 +1,10 @@
 FORMAT: 1A
-HOST: https://sweets.com/api/v1
+HOST: https://tpay.sweets.com/api/v1
 
-# Sweets API Document
+# Sweets Tpay API Document
 
-## Sweets API について
-SweetsAPIは、TPay決済システムのAPIである。
+## Sweets Tpay API について
+Sweets Tpay APIは、TPay決済システムのAPIである。
 
 ## 認証
 HTTP Request Header に以下のトークンを付与することで認証を行う。
