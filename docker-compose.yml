@@ -24,7 +24,7 @@ services:
     volumes:
       - "./docs/pos:/projects"
     tty: true
-    command: aglio --theme-full-width --theme-template triple slate -i index.md -s -h 0.0.0.0 -p 4000
+    command: aglio --theme-full-width --theme-template triple slate -i index.md -s -h 0.0.0.0 -p 5000
   drakov_pos:
     build: .
     ports:
@@ -32,4 +32,4 @@ services:
     volumes:
       - "./docs/pos:/projects"
     tty: true
-    command: drakov -f "**/*.md" --public --watch --p 4001
+    command: drakov -f "**/*.md" --public --watch --p 5001
