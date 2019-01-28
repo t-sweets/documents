@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  aglio:
+  aglio_tpay:
     build: .
     ports:
       - "4000:4000"
@@ -9,10 +9,26 @@ services:
       - "./docs/t-pay:/projects"
     tty: true
     command: aglio --theme-full-width --theme-template triple slate -i index.md -s -h 0.0.0.0 -p 4000
-  drakov:
+  drakov_tpay:
     build: .
     ports:
       - "4001:4001"
+    volumes:
+      - "./docs/pos:/projects"
+    tty: true
+    command: drakov -f "**/*.md" --public --watch --p 4001
+  aglio_pos:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./docs/pos:/projects"
+    tty: true
+    command: aglio --theme-full-width --theme-template triple slate -i index.md -s -h 0.0.0.0 -p 4000
+  drakov_pos:
+    build: .
+    ports:
+      - "5001:5001"
     volumes:
       - "./docs/t-pay:/projects"
     tty: true
