@@ -85,7 +85,5 @@
 
 ### Get Checkout [GET]
 取引詳細の表示
-### Update Checkout [PUT]
-取引の変更請求
 ### Delete Checkout [DELETE]
 取引のキャンセル請求

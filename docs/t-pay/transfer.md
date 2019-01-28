@@ -9,5 +9,4 @@
 ## Transfer [/transfer/{id}/]
 ### Get Transfer [GET]
 送金履歴詳細
-### Cancel Transfer [DELETE]
-送金キャンセル
+
