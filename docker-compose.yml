@@ -14,7 +14,7 @@ services:
     ports:
       - "4001:4001"
     volumes:
-      - "./docs/pos:/projects"
+      - "./docs/t-pay:/projects"
     tty: true
     command: drakov -f "**/*.md" --public --watch --p 4001
   aglio_pos:
@@ -30,6 +30,6 @@ services:
     ports:
       - "5001:5001"
     volumes:
-      - "./docs/t-pay:/projects"
+      - "./docs/pos:/projects"
     tty: true
     command: drakov -f "**/*.md" --public --watch --p 4001
