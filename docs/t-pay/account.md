@@ -12,102 +12,59 @@
 # Group Account
 Account API
 
-## Account List [/accounts/]
-### Get Accounts [GET]
-Account一覧を取得する
+## Account Profile [/accounts/profile/]
+### Get Profile [GET]
+認証ユーザのアカウント情報を表示する
+
++ Request ()
+
+    + Headers
+        Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
 
 + Response 200 (application/json)
 
-    + Headers
-
     + Body
-        [
-            {
-                "id": "1af5b8de2eed4054b0f65910a67647f2",
-                "username": "tagoken",
-                "display_name": "たごけん",
-                "balance": 3000
-            },
-            {
-                "id": "1af5b8de2eed4054b0f65910a67647f3",
-                "username": "hideo",
-                "display_name": "ひでお",
-                "balance": 5000
-            },
-            {
-                "id": "1af5b8de2eed4054b0s65910a6d647f3",
-                "username": "kena",
-                "display_name": "けんえー",
-                "balance": 10000
-            },
-        ]
+        {
+            "username": "tagoken",
+            "email": "tagoken@example.com",
+            "display_name": "",
+            "balance": "0"
+        }
 
-## Account [/accounts/{id}/]
+### Update Profile [PATCH]
+認証ユーザのアカウント情報を更新する
 
-+ Parameters
-
-    + id: `1af5b8de2eed4054b0f65910a67647f2` (required, string) - The Account ID
-
-### Get Account [GET]
-Account情報を取得する
-
-+ Response 200 (application/json)
++ Request with update display_name (application/json)
 
     + Headers
-
-    + Attributes (AccountData)
-
-+ Response 404 (application/json)
-
-    + Headers
+        Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
 
     + Body
 
             {
-                "error": "Account not found"
-            }
-
-### Update Account [PUT]
-Accountの更新
-
-+ Request update display_name (application/json)
-
-    + Body
-
-            {
-                "display_name": "へんたいまじん１号"
+                "display_name": "Tagotarou1"
             }
 
 + Response 200 (application/json)
 
-    + Headers
-
-    + Attributes (AccountData)
-
-+ Response 404 (application/json)
-
-    + Headers
-
     + Body
+        {
+            "username": "tagoken",
+            "email": "tagoken@example.com",
+            "display_name": "",
+            "balance": "0"
+        }
 
-            {
-                "error": "Account not found"
-            }
+### Delete My Account [DELETE]
+認証ユーザのアカウント情報を削除する
 
-### Delete Account [DELETE]
-Accountの削除
++ Request ()
+
+    + Headers
+        Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
 
 + Response 204
 
-+ Response 404 (application/json)
-
-    + Headers
-
-    + Body
-
-            {
-                "error": "Account not found"
-            }
 
 ## Account Login [/accounts/login/]
 ### Login [POST]
@@ -124,20 +81,19 @@ Accountの削除
 
 + Response 200 (application/json)
 
-    + Headers
-        token: "550e8400e29b41d4a716446655440000"
+    + Body
+        {
+            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ..."
+        }
 
-    + Attributes (AccountData)
-
-+ Response 404 (application/json)
-
-    + Headers
++ Response 400 (application/json)
 
     + Body
-
-            {
-                "error": "Account not found"
-            }
+        {
+            "non_field_errors": [
+                "提供された認証情報でログインできません。"
+            ]
+        }
 
 ## Account Register [/accounts/register/]
 ### Register [POST]
@@ -147,13 +103,72 @@ Accountの削除
 
     + Body
 
-            {
-                "username": "tagoken",
-                "display_name": "たごけん",
-                "password": "password",
-                "confirm_password": "password"
-            }
+        {
+            "username": "tagoken",
+            "email": "tagoken@example.com",
+            "display_name": "たごけん",
+            "password": "password"
+        }
 
 + Response 201
 
-    + Attributes (AccountData)
+    + Body
+
+        {
+            "username": "tagoken",
+            "email": "tagoken@example.com"
+            "display_name": "たごけん",
+            "balance": "0"
+        }
+
+## Register IDm [/accounts/register_idm/]
+### Register IDm [POST]
+IDMの登録
+
++ Request (application/json)
+
+    + Headers
+        Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+
+    + Body
+
+        {
+            "idm": "0x00000000000000",
+            "name": "Suica Card1"
+        }
+
++ Response 201
+
+    + Body
+
+        {
+            "name": "Suica Card1"
+        }
+
+## Account Chackouts [/accounts/checkouts/]
+### Account Chackouts [GET]
+認証ユーザの決済履歴の表示
+
++ Request (application/json)
+
+    + Headers
+        Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+
++ Response 200
+
+    + Body
+
+        [
+            {
+                "id": "01D45RYR8CSNRP5M4GGH5S84SR",
+                "created_time": "2019-02-21T00:38:59.730069+09:00",
+                "amount": 200,
+                "merchant": "スイーツイチゴウテン"
+            },
+            {
+                "id": "01D45TREPHVR01NMAK6CBE1G11",
+                "created_time": "2019-02-21T01:10:30.486667+09:00",
+                "amount": 455,
+                "merchant": "Sweets1gouten"
+            }
+        ]
