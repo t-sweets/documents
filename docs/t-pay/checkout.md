@@ -2,43 +2,6 @@
 決済API
 
 ## Checkouts [/checkout/]
-### List Checkout [GET]
-+ Response 200 (application/json)
-
-    + Headers
-
-    + Body
-
-        [
-            {
-                "id": "1af5b8de2eed4054b0f65910a67647f2",
-                "to": "Sweets",
-                "from": "tagoken",
-                "amount": 1000,
-                "payment_method": 1,
-                "new_balance": 3000
-                "status": "confirm"
-            },
-            {
-                "id": "saf5b8de2ded4054b0f65910f67647f2",
-                "to": "Sweets",
-                "from": "tagoken",
-                "amount": 1000,
-                "payment_method": 1,
-                "new_balance": 3000
-                "status": "pending"
-            },
-            {
-                "id": "daf5b8de2ded4054b0f65910a67647f2",
-                "to": "Sweets",
-                "from": "tagoken",
-                "amount": 1000,
-                "payment_method": 1,
-                "new_balance": 3000
-                "status": "canceled"
-            },
-        ]
-
 ### Create Checkout [POST]
 + Request with FeliCaCard (application/json)
 
@@ -46,12 +9,12 @@
 
     + Body
 
-            {
-                "to": "Sweets",
-                "amount": 1000,
-                "payment_method": 1,
-                "idm": "0x00000000000000000"
-            }
+        {
+            "amount": 1000,
+            "merchant_id": "01D45RXPW21ENE6MA8TPBCRC5C",
+            "payment_method": 1,
+            "idm": "0x00000000000000"
+        }
 
 + Response 201 (application/json)
 
@@ -59,13 +22,12 @@
 
     + Body
 
-            {
-                "id": "daf5b8de2ded4054b0f65910a67647f2",
-                "to": "Sweets",
-                "amount": 1000,
-                "payment_method": 1,
-                "status": "confirm"
-            },
+        {
+            "id": "01D4687JCYY3ES4XRS8NM1TTDW",
+            "created_time": "2019-02-21T05:05:57.285111+09:00",
+            "amount": 1000,
+            "merchant": "Sweets１号店"
+        }
 
 + Response 400 (application/json)
 残高不足
@@ -74,16 +36,28 @@
 
     + Body
 
-            {
-                "message": "Insufficient funds"
-            },
+        {
+            "detail": "Insufficient funds"
+        }
 
-## Checkout [/checkout/{id}/]
-+ Parameters
++ Response 400 (application/json)
+IDMに紐づくユーザが見つからなかった
 
-    + id: `1af5b8de2eed4054b0f65910a67647f2` (required, string) - Checkout ID
+    + Headers
 
-### Get Checkout [GET]
-取引詳細の表示
-### Delete Checkout [DELETE]
-取引のキャンセル請求
+    + Body
+
+        {
+            "detail": "User auth failed"
+        }
+
++ Response 400 (application/json)
+認証ユーザは指定された加盟店で決済を行う権限がない
+
+    + Headers
+
+    + Body
+
+        {
+            "detail": "Merchant not in auth user"
+        }
